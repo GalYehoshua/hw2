@@ -13,7 +13,7 @@ def print_function():
 
 
 def trapeziod_integrals(err=10 ** -6, func=f):
-    integrals = [0, 1 * (func(1) + func(0))]
+    integrals = [0, 1 * 0.5 * (func(1) + func(0))]
     i = 1  # number of subdivision will be 2 ** i
 
     # calc the width of the i'th iteration, i=0 is full interval
@@ -23,9 +23,10 @@ def trapeziod_integrals(err=10 ** -6, func=f):
     assert width(1) == 1/2
 
     while True:
-        new_integral = 0.5 * integrals[i] + width(i) * sum([func(k * width(i)) for k in range(1, 2 ** i, 2)])
+        new_integral = 0.5 * integrals[-1] + width(i) * sum([func(k * width(i)) for k in range(1, 2 ** i, 2)])
         integrals.append(new_integral)
-        if (integrals[i + 1] - integrals[i]) / 3 < err:
+        if abs(integrals[i + 1] - integrals[i]) / 3 < err:
+            print(i, integrals)
             return integrals[-1]
 
         if i == 1000:
@@ -36,4 +37,3 @@ def trapeziod_integrals(err=10 ** -6, func=f):
 
 
 print(trapeziod_integrals())
-
