@@ -8,7 +8,7 @@ def f(x: float):
     return np.sin(x - x ** 2) / x
 
 
-def find_all_roots_bisection(func, start=0, end=100, epsilon=10 ** -4):
+def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -6):
     def alter_high_if_required(low, high, step=epsilon):
         sgn = np.sign(func(low))
         while sgn * func(high) >= 0 and (high - low) >= epsilon:
@@ -23,27 +23,34 @@ def find_all_roots_bisection(func, start=0, end=100, epsilon=10 ** -4):
             print("Issues with end points\n")
             return
 
-        current = low
         while (high - low) >= epsilon:
             # Find middle point
             current = (low + high) / 2
             # Check if middle point is root
             if abs(func(current)) < epsilon:
-                print("here", f(current))
+                print("here", f(current), current)
                 return current
             # Decide the side to repeat the steps
             if func(current) * func(low) < 0:
                 high = current
             else:
                 low = current
+        return
 
-    roots = {}
-    step_away_from_root = 0.1
-    flag = True
-    while flag:
-        current_root = bisection(start, end)
+    roots = set()
+    step_away_from_root = 10
+
+    def recursive_bisection(low, high):
+        if high - low >= epsilon:
+            current_root = bisection(low, high)
+            if current_root:
+                roots.add(current_root)
+                recursive_bisection(low, current_root - step_away_from_root * epsilon)
+                recursive_bisection(current_root + step_away_from_root * epsilon, high)
+
+    recursive_bisection(start, end)
+    return roots
 
 
-find_all_roots_bisection(func=f)
-
+print(sorted(list(find_all_roots_bisection(func=f))))
 print_function(f)
