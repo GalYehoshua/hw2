@@ -5,10 +5,10 @@ from commons import print_function
 
 
 def f(x: float):
-    return np.sin(x - x ** 2)
+    return np.sin(x - x ** 2) / x
 
 
-def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -5):
+def find_all_roots_bisection(func, start=0.5, end=7, epsilon=10 ** -4):
     def alter_high_if_required(low, high, step=epsilon):
         sgn = np.sign(func(low))
         while sgn * func(high) >= 0 and (high - low) >= epsilon:
@@ -23,11 +23,13 @@ def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -5):
             print("Issues with end points\n")
             return
 
+        print(f"looking for roots in range {low}, {high}")
+        current = -1
         while (high - low) >= epsilon:
             # Find middle point
             current = (low + high) / 2
             # Check if middle point is root
-            if abs(func(current)) < epsilon:
+            if abs(func(current)) <= epsilon:
                 print("here", f(current), current)
                 return current
             # Decide the side to repeat the steps
@@ -35,6 +37,7 @@ def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -5):
                 high = current
             else:
                 low = current
+        print(f"left with {low}, {high}, {current}, {f(current)}")
         return
 
     roots = set()
@@ -52,5 +55,5 @@ def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -5):
     return roots
 
 
-print(sorted(list(find_all_roots_bisection(func=f, start=0.01, end=10))))
+print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -4))))
 print_function(f)
