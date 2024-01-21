@@ -1,7 +1,4 @@
-import numpy as np
-from matplotlib import pyplot as plt
-
-from commons import print_function
+from commons import *
 
 
 def f(x: float):
@@ -13,7 +10,7 @@ def find_all_roots_bisection(func, start, end, epsilon):
         sgn = np.sign(func(low))
         while sgn * func(high) >= 0 and (high - low) >= epsilon:
             # TODO: consider grad decent.
-            high -= epsilon
+            high -= step
         return high
 
     def bisection(low, high):
@@ -55,5 +52,8 @@ def find_all_roots_bisection(func, start, end, epsilon):
     return roots
 
 
-print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -5))))
-print_function(f)
+# print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -5))))
+# x_range = np.arange(0.5, 10, (10 - 0.5) / 100.0)
+# plt.figure()
+# plt.plot(x_range, f(x_range))
+# plt.show()
