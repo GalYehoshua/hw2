@@ -5,10 +5,10 @@ from commons import print_function
 
 
 def f(x: float):
-    return np.sin(x - x ** 2) / x
+    return np.sin(x - x ** 2)
 
 
-def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -6):
+def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -5):
     def alter_high_if_required(low, high, step=epsilon):
         sgn = np.sign(func(low))
         while sgn * func(high) >= 0 and (high - low) >= epsilon:
@@ -52,5 +52,5 @@ def find_all_roots_bisection(func, start=0.01, end=7, epsilon=10 ** -6):
     return roots
 
 
-print(sorted(list(find_all_roots_bisection(func=f))))
+print(sorted(list(find_all_roots_bisection(func=f, start=0.01, end=10))))
 print_function(f)
