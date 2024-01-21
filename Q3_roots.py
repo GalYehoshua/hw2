@@ -8,7 +8,7 @@ def f(x: float):
     return np.sin(x - x ** 2) / x
 
 
-def find_all_roots_bisection(func, start=0.5, end=7, epsilon=10 ** -4):
+def find_all_roots_bisection(func, start, end, epsilon):
     def alter_high_if_required(low, high, step=epsilon):
         sgn = np.sign(func(low))
         while sgn * func(high) >= 0 and (high - low) >= epsilon:
@@ -55,5 +55,5 @@ def find_all_roots_bisection(func, start=0.5, end=7, epsilon=10 ** -4):
     return roots
 
 
-print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -4))))
+print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -5))))
 print_function(f)
