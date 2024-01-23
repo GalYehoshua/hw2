@@ -7,7 +7,7 @@ def f(x: float):
 
 
 def print_function():
-    x_vals = np.arange(0, 1, 1 / 100)
+    x_vals = np.linspace(0, 1, 101)
     plt.plot(x_vals, [f(x) for x in x_vals])
     plt.show()
 

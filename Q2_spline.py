@@ -59,12 +59,14 @@ class SplinesInter:
         self.splines = splines
 
     def full_spline_data(self):
-        full_spline = np.array()
-        x_range = self.inter_points
+        x = self.inter_points
+        full_spline = np.array(x[0], x[-1], )
         splines = self.splines
         for i in range(len(x_range) - 1):
-            curr_spline =
-            full_spline = np.concatenate((full_spline, ))
+            curr_spline = splines[i]
+            full_spline = np.concatenate((full_spline, curr_spline(np.arange(x[i], x[i + 1], (x[i + 1] - x[i]) / 10))))
+
+
 
 
 

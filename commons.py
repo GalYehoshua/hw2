@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 dx = (10 - 0.5) / 100
-x_range = np.arange(0.5, 10, dx)
+x_range = np.linspace(0.5, 10, 101)
 
 
 def f_noisy(func, x, scaling_factor=1):

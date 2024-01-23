@@ -26,7 +26,7 @@ def find_all_roots_bisection(func, start, end, epsilon):
             # Find middle point
             current = (low + high) / 2
             # Check if middle point is root
-            if abs(func(current)) <= epsilon:
+            if func(current) == 0:
                 print("here", f(current), current)
                 return current
             # Decide the side to repeat the steps
@@ -35,7 +35,7 @@ def find_all_roots_bisection(func, start, end, epsilon):
             else:
                 low = current
         print(f"left with {low}, {high}, {current}, {f(current)}")
-        return
+        return current
 
     roots = set()
     step_away_from_root = 10
@@ -52,7 +52,7 @@ def find_all_roots_bisection(func, start, end, epsilon):
     return roots
 
 
-# print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -5))))
+print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -5))))
 # x_range = np.arange(0.5, 10, (10 - 0.5) / 100.0)
 # plt.figure()
 # plt.plot(x_range, f(x_range))
