@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 dx = (10 - 0.5) / 100
 x_range = np.arange(0.5, 10, dx)
 
+
 def f_noisy(func, x, scaling_factor=1):
     return func(x) + scaling_factor * np.random.uniform(-1, 1, 1)
 
