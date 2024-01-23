@@ -32,7 +32,15 @@ def newton_raphson(func, der_func, initial_guess, epsilon=1e-8):
     raise Exception(f"Failed to find root for initial guess {initial_guess} in {N_max} steps")
 
 
+def secant(func, x0, x1, epsilon=1e-8):
+    while abs(x0 - x1) > epsilon:
+        x0, x1 = x1, x1 - func(x1) * (x0 - x1) / (func(x0) - func(x1))
+    return x1
+
+
 a = newton_raphson(f, df, 2)
 print(a, f(a))
 
+a = secant(f, 2, 3)
+print(a, f(a))
 # some roots i know [1, 2.341, 3.056, 3.610, 4.079, 4.49474221253328, 4.870300940353982, 5.216045799580043, 5.54...]
