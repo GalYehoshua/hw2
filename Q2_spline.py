@@ -5,10 +5,7 @@ from Q2_plots import noise
 
 scale = 0.1
 data = f(x_range) + scale * noise[:len(x_range)]
-
-f_test = x_range ** 3
-plt.plot(x_range, f_test)
-plt.show()
+f_test = x_range ** 2
 
 
 class SplinesInter:
@@ -38,10 +35,10 @@ class SplinesInter:
 
     def __compute_coefficients(self):
         dx = self.dx
-        self.alphas = self.__splines_sec_der()[1:] / (6 * dx)
-        self.betas = -self.__splines_sec_der() / (6 * dx)
-        self.gammas = (-self.__splines_sec_der()[1:] * dx * dx + 6 * self.data[1:]) / (6 * dx)
-        self.etas = (self.__splines_sec_der() * dx * dx - 6 * self.data) / (6 * dx)
+        self.alphas = self.sec_ders()[1:] / (6 * dx)
+        self.betas = -self.sec_ders() / (6 * dx)
+        self.gammas = (-self.sec_ders()[1:] * dx * dx + 6 * self.data[1:]) / (6 * dx)
+        self.etas = (self.sec_ders() * dx * dx - 6 * self.data) / (6 * dx)
 
     def sec_ders(self):
         return self._sec_ders
@@ -60,19 +57,25 @@ class SplinesInter:
 
     def full_spline_data(self):
         x = self.inter_points
-        full_spline = np.array(x[0], x[-1], )
+        refinement = 10
+        full_x_range = np.linspace(x[0], x[-1], (len(x) - 1) * refinement)
+        full_spline = []
         splines = self.splines
         for i in range(len(x_range) - 1):
             curr_spline = splines[i]
-            full_spline = np.concatenate((full_spline, curr_spline(np.arange(x[i], x[i + 1], (x[i + 1] - x[i]) / 10))))
-
-
-
+            full_spline = np.concatenate((full_spline, curr_spline(np.linspace(x[i], x[i + 1], refinement))))
+        return full_x_range, full_spline
 
 
 print('Splines Testing')
-test_splines = SplinesInter(data, x_range)
+splines_inter = SplinesInter(data, x_range)
 # print(splines_inter.sec_ders())
 
 test_splines = SplinesInter(f_test, x_range)
-print(test_splines.sec_ders())
+print(test_splines.sec_ders()[:10])
+
+print('some spline action')
+print(test_splines.splines[0](np.linspace(0, 10, 11)))
+full_x_range, full_spline = test_splines.full_spline_data()
+plt.plot(full_x_range, full_spline)
+plt.show()
