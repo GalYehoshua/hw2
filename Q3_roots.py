@@ -52,7 +52,7 @@ def find_all_roots_bisection(func, start, end, epsilon):
     return roots
 
 
-print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=10 ** -5))))
+print(sorted(list(find_all_roots_bisection(f, start=0.5, end=10, epsilon=1e-5))))
 # x_range = np.arange(0.5, 10, (10 - 0.5) / 100.0)
 # plt.figure()
 # plt.plot(x_range, f(x_range))
