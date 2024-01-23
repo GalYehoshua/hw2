@@ -22,7 +22,7 @@ def derivative(func_ip, func_im, delta_x):
 
 
 def find_all_roots(start, end, method, epsilon=1e-6, step_away_from_root=10):
-    roots = {}
+    roots = set()
 
     def recursive_bisection(low, high):
         if high - low >= epsilon:
