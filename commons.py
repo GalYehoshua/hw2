@@ -19,3 +19,18 @@ def der(func, dx):
 
 def derivative(func_ip, func_im, delta_x):
     return (func_ip - func_im) / (2 * delta_x)
+
+
+def find_all_roots(start, end, method, epsilon=1e-6, step_away_from_root=10):
+    roots = {}
+
+    def recursive_bisection(low, high):
+        if high - low >= epsilon:
+            current_root = method(low, high)
+            if current_root:
+                roots.add(current_root)
+                recursive_bisection(low, current_root - step_away_from_root * epsilon)
+                recursive_bisection(current_root + step_away_from_root * epsilon, high)
+
+    recursive_bisection(start, end)
+    return roots
