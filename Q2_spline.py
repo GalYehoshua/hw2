@@ -8,7 +8,7 @@ data = f(x_range) + scale * noise[:len(x_range)]
 f_test = x_range ** 2
 
 
-class SplinesInter:
+class CubicSplinesInter:
     def __init__(self, data, x):
         self.data = data
         self.inter_points = x
@@ -26,12 +26,12 @@ class SplinesInter:
         # for now assuming points dx is constant
         n = len(self.data) - 2
         dx = self.points_dx[0]
-        b_vec = (self.data[:-2] - 2 * self.data[1:-1] + self.data[2:]) * 6 / dx
+        b_vec = (self.data[:-2] - 2 * self.data[1:-1] + self.data[2:]) * 6
 
-        dx_mat = dx * np.diag(np.ones(n - 1), 1) \
-                 + 4 * dx * np.diag(np.ones(n)) \
-                 + dx * np.diag(np.ones(n - 1), -1)
-        self._sec_ders = np.concatenate((np.zeros(1), np.dot(np.linalg.inv(dx_mat), b_vec), np.zeros(1)))
+        dx_mat = np.diag(np.ones(n - 1), 1) \
+                 + 4 * np.diag(np.ones(n)) \
+                 + np.diag(np.ones(n - 1), -1)
+        self._sec_ders = np.concatenate((np.zeros(1), np.dot(np.linalg.inv(dx_mat), b_vec), np.zeros(1))) / (dx ** 2)
 
     def __compute_coefficients(self):
         dx = self.dx
@@ -68,10 +68,10 @@ class SplinesInter:
 
 
 print('Splines Testing')
-splines_inter = SplinesInter(data, x_range)
+splines_inter = CubicSplinesInter(data, x_range)
 # print(splines_inter.sec_ders())
 
-test_splines = SplinesInter(f_test, x_range)
+test_splines = CubicSplinesInter(f_test, x_range)
 print(test_splines.sec_ders()[:10])
 
 print('some spline action')
