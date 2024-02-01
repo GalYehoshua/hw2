@@ -12,6 +12,7 @@ def print_function():
     plt.show()
 
 
+# calc the width of the i'th iteration, i=0 is full interval
 def width(iteration):
     return 1.0 / 2 ** iteration
 
@@ -20,7 +21,6 @@ def trapeziod_integrals(err=10 ** -6, func=f):
     integrals = [0, 1 * 0.5 * (func(1) + func(0))]
     i = 1  # number of subdivision will be 2 ** i
 
-    # calc the width of the i'th iteration, i=0 is full interval
     assert width(1) == 1 / 2
 
     while True:
@@ -55,10 +55,10 @@ def romberg(err=1e-6, func=f, start=0, end=1):
         # computing refined romberg integrals using eq 3
         for m in range(1, i):
             romberg_integrals[(i, m + 1)] = romberg_integrals[(i, m)] \
-                                            + (romberg_integrals[(i, m) - romberg_integrals[(i - 1, m)]]) / (4 ** m - 1)
+                                            + (romberg_integrals[(i, m)] - romberg_integrals[(i - 1, m)]) / (4 ** m - 1)
 
         # estimate the err by eq 4.
-        estimate_err = (romberg_integrals[(i, i) - romberg_integrals[(i - 1, i)]]) / (4 ** i - 1)
+        estimate_err = (romberg_integrals[(i, i - 1) - romberg_integrals[(i - 1, i - 1)]]) / (4 ** i - 1)
         if estimate_err < err:
             return i, romberg_integrals[(i, i)]
         i += 1
@@ -70,3 +70,6 @@ def romberg(err=1e-6, func=f, start=0, end=1):
 
 
 print(trapeziod_integrals())
+
+print_function()
+print(romberg())
