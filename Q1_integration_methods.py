@@ -27,7 +27,7 @@ def trapeziod_integrals(err=10 ** -6, func=f):
         new_integral = 0.5 * integrals[-1] + width(i) * sum([func(k * width(i)) for k in range(1, 2 ** i, 2)])
         integrals.append(new_integral)
         if abs(integrals[i + 1] - integrals[i]) / 3 < err:
-            print(i, integrals)
+            print(i, integrals[-4:], (integrals[i + 1] - integrals[i]) / 3)
             return integrals[-1]
 
         if i == 1000:
@@ -37,7 +37,7 @@ def trapeziod_integrals(err=10 ** -6, func=f):
         i += 1
 
 
-def romberg(err=1e-6, func=f, start=0, end=1):
+def romberg(err=1e-7, func=f, start=0, end=1):
     trapeziod_integrals = {1: 0.5 * (func(start) + func(end))}
     trapeziod_integrals[2] = 0.5 * trapeziod_integrals[1] + 0.5 * (func(0) + func(0.5) + func(1))
     romberg_integrals = {(1, 1): trapeziod_integrals[1],
@@ -60,6 +60,8 @@ def romberg(err=1e-6, func=f, start=0, end=1):
         # estimate the err by eq 4.
         estimate_err = (romberg_integrals[(i, i - 1)] - romberg_integrals[(i - 1, i - 1)]) / (4 ** (i - 1) - 1)
         if abs(estimate_err) < err:
+            print([romberg_integrals[(i - 1, k)] for k in range(1, i)])
+            print([romberg_integrals[(i, k)] for k in range(1, i)])
             return i, romberg_integrals[(i, i)], estimate_err
         i += 1
 
@@ -71,5 +73,5 @@ def romberg(err=1e-6, func=f, start=0, end=1):
 
 print(trapeziod_integrals())
 
-print_function()
+# print_function()
 print(romberg())
