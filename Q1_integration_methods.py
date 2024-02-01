@@ -58,9 +58,9 @@ def romberg(err=1e-6, func=f, start=0, end=1):
                                             + (romberg_integrals[(i, m)] - romberg_integrals[(i - 1, m)]) / (4 ** m - 1)
 
         # estimate the err by eq 4.
-        estimate_err = (romberg_integrals[(i, i - 1)] - romberg_integrals[(i - 1, i - 1)]) / (4 ** i - 1)
-        if estimate_err < err:
-            return i, romberg_integrals[(i, i)]
+        estimate_err = (romberg_integrals[(i, i - 1)] - romberg_integrals[(i - 1, i - 1)]) / (4 ** (i - 1) - 1)
+        if abs(estimate_err) < err:
+            return i, romberg_integrals[(i, i)], estimate_err
         i += 1
 
         # computation did not converge after 1000 iterations, halt! you may cry now :(
