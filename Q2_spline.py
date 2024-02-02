@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 
 from commons import *
@@ -19,7 +20,9 @@ class CubicSplinesInter:
         self.betas = []
         self.gammas = []
         self.etas = []
+        # when creating spline already compute it
         self.__splines_sec_der()
+        self.__compute_coefficients()
         self.compute_splines()
 
     def __splines_sec_der(self):
@@ -44,7 +47,6 @@ class CubicSplinesInter:
         return self._sec_ders
 
     def compute_splines(self):
-        self.__compute_coefficients()
         q = self.inter_points
         splines = []
         for i in range(len(q) - 1):
@@ -54,6 +56,17 @@ class CubicSplinesInter:
                                + self.etas[i] * (x - q[i + 1])
             splines.append(spline)
         self.splines = splines
+
+    def analytical_spline_der(self):
+        q = self.inter_points
+        splines_der = []
+        for i in range(len(q) - 1):
+            spline_der = lambda x: 3 * self.alphas[i] * (x - q[i]) ** 2 \
+                                   + 3 * self.betas[i] * (x - q[i + 1]) ** 2 \
+                                   + self.gammas[i] \
+                                   + self.etas[i]
+            splines_der.append(spline_der)
+        return splines_der
 
     def full_spline_data(self):
         x = self.inter_points
@@ -67,15 +80,19 @@ class CubicSplinesInter:
         return full_x_range, full_spline
 
 
-print('Splines Testing')
 splines_inter = CubicSplinesInter(data, x_range)
-# print(splines_inter.sec_ders())
+
+# print(splines_inter.sec_ders()[:20])
+
+# # a test for simple functions, sec der works ok.
+# test_splines = CubicSplinesInter(f_test, x_range)
+# print(test_splines.sec_ders()[:20] / x_range[:20])
+
+print('Splines Testing')
 
 test_splines = CubicSplinesInter(f_test, x_range)
-print(test_splines.sec_ders()[:10])
 
-print('some spline action')
-print(test_splines.splines[0](np.linspace(0, 10, 11)))
-full_x_range, full_spline = test_splines.full_spline_data()
-plt.plot(full_x_range, full_spline)
+x, y = test_splines.full_spline_data()
+
+plt.plot(x, y)
 plt.show()

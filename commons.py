@@ -5,6 +5,23 @@ dx = (10 - 0.5) / 100
 x_range = np.linspace(0.5, 10, 101)
 
 
+def compute_list_of_functions(funcs, boundaries, division):
+    """
+    :param funcs: a list of funcs
+    :param boundaries: list of boundary points for functions, must be of length(funcs) + 1
+    :param division: number of points to divide each boundary
+    :rtype: tuple, tuple is of range and outputs
+    """
+    assert len(funcs) + 1 == len(boundaries)
+    full_x_range = []
+    funcs_outputs = []
+    for i, func in enumerate(funcs):
+        funcs_outputs[:-1] += list(func(np.linspace(boundaries[i], boundaries[i + 1], division)))
+        full_x_range[:-1] += list(np.linspace(boundaries[i], boundaries[i + 1], division))
+
+    return np.array(full_x_range), np.array(funcs_outputs)
+
+
 def f_noisy(func, x, scaling_factor=1):
     return func(x) + scaling_factor * np.random.uniform(-1, 1, 1)
 
