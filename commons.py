@@ -1,8 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-dx = (10 - 0.5) / 100
-x_range = np.linspace(0.5, 10, 101)
+x_range = np.linspace(0.5, 10, 100)
+dx = x_range[1] - x_range[0]
 
 
 def compute_list_of_functions(funcs, boundaries, division):
@@ -60,8 +60,6 @@ if __name__ == "__main__":
     funcs = [lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x)]
 
     x, y = compute_list_of_functions(funcs, np.linspace(0, 26, len(funcs) + 1), 100)
-
-    print(y)
-    print(list(y))
-    plt.plot(x,y)
+    print(len(x))
+    plt.plot(x, y)
     plt.show()

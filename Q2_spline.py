@@ -80,25 +80,33 @@ class CubicSplinesInter:
             full_spline = np.concatenate((full_spline, curr_spline(np.linspace(x[i], x[i + 1], refinement))))
         return full_x_range, full_spline
 
+    def assert_spline(self):
+        for i, x in enumerate(self.inter_points):
+            if not self.data[i] == self.splines[i](x):
+                print("Something is wrong please check")
+                print(f"data point at internal point {i}, {x} is {self.data[i]},"
+                      f" while splines{i} is {self.splines[i](x)}")
 
-splines_inter = CubicSplinesInter(data, x_range)
 
-# print(splines_inter.sec_ders()[:20])
+if __name__ == "__main__":
+    splines_inter = CubicSplinesInter(data, x_range)
 
-# # a test for simple functions, sec der works ok.
-# test_splines = CubicSplinesInter(f_test, x_range)
-# print(test_splines.sec_ders()[:20] / x_range[:20])
+    # print(splines_inter.sec_ders()[:20])
 
-print('Splines Testing')
+    # # a test for simple functions, sec der works ok.
+    # test_splines = CubicSplinesInter(f_test, x_range)
+    # print(test_splines.sec_ders()[:20] / x_range[:20])
 
-test_splines = CubicSplinesInter(np.linspace(0.5, 10, 11) ** 2, np.linspace(0.5, 10, 11))
+    print('Splines Testing')
 
-x, y = compute_list_of_functions(test_splines.analytical_spline_der(), test_splines.inter_points, 10)
-print(y)
+    test_splines = CubicSplinesInter(np.linspace(0.5, 10, 11) ** 2, np.linspace(0.5, 10, 11))
 
-p4 = test_splines.splines[4]
-print("p4 \n", x, "\n", p4(x))
+    x, y = compute_list_of_functions(test_splines.analytical_spline_der(), test_splines.inter_points, 10)
+    print(y)
 
-print("sec der", test_splines.sec_ders())
-plt.plot(x, y)
-plt.show()
+    p4 = test_splines.splines[4]
+    print("p4 \n", x, "\n", p4(x))
+
+    print("sec der", test_splines.sec_ders())
+    plt.plot(x, y)
+    plt.show()
