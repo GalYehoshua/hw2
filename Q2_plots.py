@@ -10,11 +10,7 @@ def a_plots():
     plt.subplot(211)
     plt.plot(x_range, f(x_range))
     plt.subplot(212)
-    plt.plot(x_range, f(x_range) + 0.1 * noise[:100])
-
-    # plt.plot(x_range, np.gradient(f(x_range), 2 * dx))
-    # plt.subplot(313)
-    # plt.plot(x_range[1:], der(f(x_range), dx))
+    plt.plot(x_range, f(x_range) + 0.1 * noise)
     plt.show()
 
 
@@ -40,6 +36,6 @@ def c_plots():
 
 
 if __name__ == '__main__':
-    # a_plots()
+    a_plots()
     # b_plots()
     c_plots()
