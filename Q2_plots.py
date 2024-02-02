@@ -1,8 +1,10 @@
+import numpy as np
+
 from commons import *
 from Q2_spline import CubicSplinesInter
 
-noise = np.random.uniform(-1, 1, 100)
 scales = [0.1, 0.5, 1]
+
 
 def a_plots():
     plt.subplot(211)
@@ -17,6 +19,7 @@ def a_plots():
 
 
 def b_plots():
+    x_range = np.linspace(0.5, 10, 99)
     for i, scaling_factor in enumerate(scales):
         plt.subplot(int(f'41{i + 1}'))
         plt.plot(x_range, scaling_factor * der(noise, dx) / noise[:-1])
@@ -24,11 +27,15 @@ def b_plots():
 
 
 def c_plots():
-    x_range = np.linspace(0.5, 10, 100)
-    for scale in scales:
+    start, end = 0.5, 10
+    x_range = np.linspace(start, end, 100)
+    for i, scale in enumerate(scales):
+        plt.subplot(int(f'41{i + 1}'))
         f_noise = f(x_range) + scale * noise
         curr_spline = CubicSplinesInter(f_noise, x_range)
-        x, y = compute_list_of_functions(curr_spline.analytical_spline_der(), np.linspace)
+        x, y = compute_list_of_functions(curr_spline.analytical_spline_der(), np.linspace(start, end, 10), 11)
+        plt.plot(x, y)
+        plt.show()
 
 
 if __name__ == '__main__':

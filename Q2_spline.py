@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from commons import *
-from Q2_plots import noise
 
 scale = 0.1
 data = f(x_range) + scale * noise[:len(x_range)]

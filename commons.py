@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 
 x_range = np.linspace(0.5, 10, 100)
 dx = x_range[1] - x_range[0]
+noise = np.random.uniform(-1, 1, 100)
 
 
 def compute_list_of_functions(funcs, boundaries, division):
