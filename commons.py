@@ -13,12 +13,14 @@ def compute_list_of_functions(funcs, boundaries, division):
     :rtype: tuple, tuple is of range and outputs
     """
     assert len(funcs) + 1 == len(boundaries)
+    print(boundaries)
     full_x_range = []
     funcs_outputs = []
     for i, func in enumerate(funcs):
-        funcs_outputs[:-1] += list(func(np.linspace(boundaries[i], boundaries[i + 1], division)))
-        full_x_range[:-1] += list(np.linspace(boundaries[i], boundaries[i + 1], division))
+        funcs_outputs = funcs_outputs[:-1] + list(func(np.linspace(boundaries[i], boundaries[i + 1], division)))
+        full_x_range = full_x_range[:-1] + list(np.linspace(boundaries[i], boundaries[i + 1], division))
 
+    print(full_x_range)
     return np.array(full_x_range), np.array(funcs_outputs)
 
 
@@ -51,3 +53,15 @@ def find_all_roots(start, end, method, epsilon=1e-6, step_away_from_root=10):
 
     recursive_bisection(start, end)
     return roots
+
+
+if __name__ == "__main__":
+    print('funcs plot test')
+    funcs = [lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x)]
+
+    x, y = compute_list_of_functions(funcs, np.linspace(0, 26, len(funcs) + 1), 100)
+
+    print(y)
+    print(list(y))
+    plt.plot(x,y)
+    plt.show()

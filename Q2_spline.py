@@ -68,6 +68,7 @@ class CubicSplinesInter:
             splines_der.append(spline_der)
         return splines_der
 
+    # not to use, use compute_list_of_functions() from commons.
     def full_spline_data(self):
         x = self.inter_points
         refinement = 10
@@ -90,9 +91,14 @@ splines_inter = CubicSplinesInter(data, x_range)
 
 print('Splines Testing')
 
-test_splines = CubicSplinesInter(f_test, x_range)
+test_splines = CubicSplinesInter(np.linspace(0.5, 10, 11) ** 2, np.linspace(0.5, 10, 11))
 
-x, y = test_splines.full_spline_data()
+x, y = compute_list_of_functions(test_splines.analytical_spline_der(), test_splines.inter_points, 10)
+print(y)
 
+p4 = test_splines.splines[4]
+print("p4 \n", x, "\n", p4(x))
+
+print("sec der", test_splines.sec_ders())
 plt.plot(x, y)
 plt.show()
