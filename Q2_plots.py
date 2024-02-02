@@ -29,15 +29,17 @@ def b_plots():
 def c_plots():
     start, end = 0.5, 10
     x_range = np.linspace(start, end, 100)
-    for i, scale in enumerate(scales):
-        plt.subplot(int(f'41{i + 1}'))
+    for i, scale in enumerate(scales[:1]):
+        plt.subplot(int(f'31{i + 1}'))
         f_noise = f(x_range) + scale * noise
         curr_spline = CubicSplinesInter(f_noise, x_range)
-        x, y = compute_list_of_functions(curr_spline.analytical_spline_der(), np.linspace(start, end, 10), 11)
+        funcs = curr_spline.analytical_spline_der()
+        x, y = compute_list_of_functions(funcs, np.linspace(start, end, len(funcs) + 1), 11)
         plt.plot(x, y)
         plt.show()
 
 
 if __name__ == '__main__':
-    a_plots()
-    b_plots()
+    # a_plots()
+    # b_plots()
+    c_plots()
