@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 
 from commons import *
@@ -28,14 +29,35 @@ def c_plots():
     for i, scale in enumerate(scales[:1]):
         plt.subplot(int(f'31{i + 1}'))
         f_noise = f(x_range) + scale * noise
-        curr_spline = CubicSplinesInter(f_noise, x_range)
+        curr_spline = CubicSplinesInter(x_range, f_noise)
         funcs = curr_spline.analytical_spline_der()
         x, y = compute_list_of_functions(funcs, np.linspace(start, end, len(funcs) + 1), 11)
         plt.plot(x, y)
         plt.show()
 
 
+def c2_plots():
+    start, end = 0.5, 10
+    x_range = np.linspace(start, end, 100)
+    noise_spline_inter = CubicSplinesInter(x_range, noise)
+    noise_spline = noise_spline_inter.splines
+
+    # noise inter
+    plt.subplot(211)
+    x, y = compute_list_of_functions(noise_spline, np.linspace(start, end, len(noise_spline) + 1), 4)
+    plt.plot(x, y/y[0])
+
+    print(y[0:33])
+    print(noise[0:33])
+
+    plt.subplot(212)
+    der_noise = noise_spline_inter.analytical_spline_der()
+    x, y = compute_list_of_functions(der_noise, np.linspace(start, end, len(der_noise) + 1), 4)
+    plt.plot(x, y)
+    plt.show()
+
+
 if __name__ == '__main__':
-    a_plots()
+    # a_plots()
     # b_plots()
-    c_plots()
+    c2_plots()

@@ -6,6 +6,7 @@ dx = x_range[1] - x_range[0]
 noise = np.random.uniform(-1, 1, 100)
 
 
+# was tested and is fine.
 def compute_list_of_functions(funcs, boundaries, division):
     """
     :param funcs: a list of funcs
@@ -14,14 +15,12 @@ def compute_list_of_functions(funcs, boundaries, division):
     :rtype: tuple, tuple is of range and outputs
     """
     assert len(funcs) + 1 == len(boundaries)
-    print(boundaries)
     full_x_range = []
     funcs_outputs = []
     for i, func in enumerate(funcs):
         funcs_outputs = funcs_outputs[:-1] + list(func(np.linspace(boundaries[i], boundaries[i + 1], division)))
         full_x_range = full_x_range[:-1] + list(np.linspace(boundaries[i], boundaries[i + 1], division))
 
-    print(full_x_range)
     return np.array(full_x_range), np.array(funcs_outputs)
 
 
