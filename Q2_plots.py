@@ -4,7 +4,7 @@ import numpy as np
 from commons import *
 from Q2_spline import CubicSplinesInter
 
-scales = [0.1, 0.5, 2, 26]
+scales = [0.01, 0.1, 0.5]
 noise = np.random.uniform(-1, 1, 100)
 
 
@@ -14,7 +14,7 @@ def a_plots():
     plt.title("function plot")
     plt.grid()
     plt.subplot(313)
-    plt.plot(x_range, f(x_range) + 26 * noise)
+    plt.plot(x_range, f(x_range) + 0.26 * noise)
     plt.title("function + noise plot lambda = 0.26")
     plt.grid()
     plt.show()
@@ -33,18 +33,18 @@ def b_plots():
 
 def c_plots():
     start, end = 0.5, 10
-    inter_points = 15
+    inter_points = 100
     x_range = np.linspace(start, end, inter_points)
     dx = x_range[1] - x_range[0]
-    smth_ass_func = lambda z: z
+    smth_ass_func = f
     for i, scale in enumerate(scales):
         # plt.subplot(int(f'31{i + 1}'))
         f_noise = smth_ass_func(x_range) + scale * np.concatenate([[x] * 1 for x in noise[:inter_points]])
         f_noise_inter_spline = CubicSplinesInter(x_range, f_noise)
         funcs = f_noise_inter_spline.analytical_spline_der()
         x, y = compute_list_of_functions(np.linspace(start, end, len(funcs) + 1), funcs, 20)
-        # Removing the original function:
-        y -= smth_ass_func(x)
+        # Removing the original derivative of original function:
+        y -= der(smth_ass_func(np.concatenate([x, [end + dx]])), dx)
 
         plt.plot(x, y, color='orange', label="inter data")
         # Taking der on noise.
