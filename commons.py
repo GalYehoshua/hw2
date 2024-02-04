@@ -3,11 +3,9 @@ from matplotlib import pyplot as plt
 
 x_range = np.linspace(0.5, 10, 100)
 dx = x_range[1] - x_range[0]
-noise = np.random.uniform(-1, 1, 100)
-
 
 # was tested and is fine.
-def compute_list_of_functions(funcs, boundaries, division):
+def compute_list_of_functions(boundaries, funcs, division):
     """
     :param funcs: a list of funcs
     :param boundaries: list of boundary points for functions, must be of length(funcs) + 1
@@ -59,7 +57,7 @@ if __name__ == "__main__":
     print('funcs plot test')
     funcs = [lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x), lambda x: np.sin(x)]
 
-    x, y = compute_list_of_functions(funcs, np.linspace(0, 26, len(funcs) + 1), 100)
+    x, y = compute_list_of_functions(np.linspace(0, 26, len(funcs) + 1), funcs, 100)
     print(len(x))
     plt.plot(x, y)
     plt.show()

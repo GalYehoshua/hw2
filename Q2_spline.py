@@ -50,7 +50,7 @@ class CubicSplinesInter:
     @staticmethod
     def der_spline_by_params(a, b, g, e, qi, qi_1):
         def f(x):
-            return 3 * a * (x - qi) ** 2 + 3 * b * (x - qi_1) ** 2 + g * (x - qi) + e * (x - qi_1)
+            return 3 * a * (x - qi) ** 2 + 3 * b * (x - qi_1) ** 2 + g + e
         return f
 
     def compute_splines(self):
@@ -100,12 +100,13 @@ if __name__ == "__main__":
     print('Splines Testing')
     scale = 0.1
     x_range = np.linspace(0.5, 10, 100)
+    noise = np.random.uniform(-1, 1, 100)
     data = f(x_range) + scale * noise[:len(x_range)]
 
     test_splines = CubicSplinesInter(np.linspace(0.5, 10, 100), data)
     # sec der looks fine.
     # print("sec der", test_splines.sec_ders())
-    x, y = compute_list_of_functions(test_splines.splines, test_splines.inter_points, 10)
+    x, y = compute_list_of_functions(test_splines.inter_points, test_splines.splines, 10)
 
     print("last data is", test_splines.data[-20:], "len data", len(test_splines.data))
 
