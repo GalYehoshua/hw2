@@ -41,6 +41,6 @@ def secant(func, x0, x1, epsilon=1e-8):
 a = newton_raphson(f, df, 2)
 print(a, f(a))
 
-a = secant(f, 2, 3)
+a = secant(f, 2, 2.6)
 print(a, f(a))
 # some roots i know [1, 2.341, 3.056, 3.610, 4.079, 4.49474221253328, 4.870300940353982, 5.216045799580043, 5.54...]
