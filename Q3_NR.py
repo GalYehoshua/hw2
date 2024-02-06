@@ -40,7 +40,7 @@ def secant(func, x0, x1, epsilon=1e-6):
         x0, x1 = x1, x1 - func(x1) * (x0 - x1) / (func(x0) - func(x1))
         i += 1
 
-    if i < 1000:
+    if i <= 1000:
         return x1
     return False
 
